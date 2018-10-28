@@ -1,0 +1,16 @@
+.playerName {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.playerName:hover {
+    color: #006CB7;
+}
+
+.statsCol {
+    padding: 4px 6px 4px 10px !important;
+}
+
+.teamName {
+    font-weight: bold;
+}

@@ -1,0 +1,21 @@
+.paper {
+    text-align: center;
+    width: 180px;
+    height: 180px;
+    margin: 10px;
+}
+
+.paper:hover {
+    background-color: skyblue;
+    cursor: pointer;
+}
+
+.teamLogo {
+    height: 7rem;
+    padding-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.teamsMain {
+    margin-left: 5%;
+}

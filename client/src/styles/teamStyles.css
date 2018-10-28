@@ -1,0 +1,19 @@
+.mainTeam {
+    margin: 1rem 1rem 1rem 1rem;
+}
+
+.mainTeam h1 {
+    font-size: 24px;
+}
+
+.coachTable {
+    margin-top: 1rem;
+}
+
+.teamNameHeader {
+    font-size: 2rem;
+}
+
+.teamLogo {
+    height: 10rem;
+}

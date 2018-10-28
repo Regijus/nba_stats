@@ -1,0 +1,16 @@
+.playerMain {
+    margin: 1rem;
+}
+
+.careerHighParagraph {
+    font-size: 12px;
+}
+
+.careerHighParagraph span {
+    font-weight: bold;
+}
+
+.table {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}

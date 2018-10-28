@@ -1,0 +1,30 @@
+.scheduleMain {
+    margin: 0 auto;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+    float: none;
+}
+
+.scheduleList {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    width: 25%;
+}
+
+.scheduleListItem {
+    margin-top: 0.5rem;
+}
+
+.scheduleListItem:hover {
+    background-color: skyblue;
+    cursor: pointer;
+}
+
+.scoreDiv {
+    margin: 1rem;
+}
+
+.points {
+    font-weight: bold;
+}

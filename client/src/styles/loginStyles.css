@@ -1,0 +1,17 @@
+.loginCard {
+    margin: 0 auto;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    float: none;
+    width: 25%;
+}
+
+.loginHeader {
+    text-align: center;
+    text-shadow: 2px;
+    font-weight: bold;
+}
+
+.submitLoginButton {
+    margin-bottom: 1rem;
+}

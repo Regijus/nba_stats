@@ -1,0 +1,23 @@
+.favoriteList {
+    margin: 0 auto;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    float: none;
+    text-align: center;
+}
+
+.favoriteListItem {
+    width: 50%;
+    margin: 0 auto;
+    float: none;
+    text-align: center;
+}
+
+.favoriteListItem:hover {
+    background-color: skyblue;
+    cursor: pointer;
+}
+
+.favoriteTeamsHeader {
+    margin-top: 1rem;
+}
