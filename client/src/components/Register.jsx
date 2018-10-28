@@ -19,6 +19,15 @@ class Register extends Component {
           <CardTitle className="registerHeader">Register</CardTitle>
           <Form>
             <FormGroup>
+              <Label for="email">Email</Label>
+              <Input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="email"
+              />
+            </FormGroup>
+            <FormGroup>
               <Label for="username">Username</Label>
               <Input
                 type="username"
@@ -45,7 +54,7 @@ class Register extends Component {
                 placeholder="Repeat Password"
               />
             </FormGroup>
-            <Button>Submit</Button>
+            <Button color="primary">Submit</Button>
           </Form>
         </CardBody>
       </Card>

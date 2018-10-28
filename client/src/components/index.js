@@ -13,3 +13,6 @@ export { default as SeasonStatsTable } from './SeasonStatsTable';
 export { default as Schedule } from './Schedule';
 export { default as Game } from './Game';
 export { default as BoxScoreTable } from './BoxScoreTable';
+export { default as Users } from './Users';
+export { default as Records } from './Records';
+export { default as UserForm } from './UserForm';

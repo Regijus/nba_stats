@@ -7,12 +7,15 @@ import {
     Teams,
     Team,
     Player,
+    Records,
+    Users,
     FavoritePlayers,
     Schedule,
     Game,
     Menu,
     Login,
-    Register
+    Register,
+    UserForm
 } from '.';
 
 class Main extends Component {
@@ -29,6 +32,9 @@ class Main extends Component {
                 <Route exact path={siteRoutes.FAVORITES} component={FavoritePlayers}/>
                 <Route exact path={siteRoutes.LOGIN} component={Login}/>
                 <Route exact path={siteRoutes.REGISTER} component={Register}/>
+                <Route exact path={siteRoutes.USERS} component={Users}/>
+                <Route exact path={siteRoutes.RECORDS} component={Records}/>
+                <Route exact path={siteRoutes.EDIT_USER} component={UserForm}/>
             </div>
         );
     }

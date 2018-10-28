@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
     Collapse,
     Navbar,
@@ -43,19 +43,40 @@ class Menu extends Component {
                                 </NavLink>
                             </NavItem>
                             {
-                                this.props.user.isLogged ? 
-                                <NavItem>
-                                    <NavLink href="/favorites/">
-                                        Favorites
-                                    </NavLink>
-                                </NavItem> :
-                                <div></div>
+                                this.props.user.isLogged ? (
+                                    <Fragment>
+                                        <NavItem>
+                                            <NavLink href="/favorites/">
+                                                Favorites
+                                            </NavLink>
+                                        </NavItem> 
+                                        <NavItem>
+                                            <NavLink href="/users/">
+                                                Users
+                                            </NavLink>
+                                        </NavItem>
+                                        <NavItem>
+                                            <NavLink href="/records/">
+                                                Records
+                                            </NavLink>
+                                        </NavItem>
+                                    </Fragment>    
+                                )
+                                : (
+                                    <Fragment>
+                                        <NavItem>
+                                            <NavLink href="/login/">
+                                                Login
+                                            </NavLink>
+                                        </NavItem>
+                                        <NavItem>
+                                            <NavLink href="/register/">
+                                                Register
+                                            </NavLink>
+                                        </NavItem>
+                                    </Fragment>
+                                )
                             }
-                            <NavItem>
-                                <NavLink href={this.props.user.isLogged ? "/user/" + this.props.user.id : "/login/"}>
-                                    {this.props.user.isLogged ? 'User' : 'Login'}
-                                </NavLink>
-                            </NavItem>
                         </Nav>
                     </Collapse>
                 </Navbar>

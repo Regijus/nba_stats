@@ -7,5 +7,8 @@ export default {
     GAME: '/games/:gameId',
     FAVORITES: '/favorites',
     LOGIN: '/login',
-    REGISTER: '/register'
+    REGISTER: '/register',
+    USERS: '/users',
+    RECORDS: '/records',
+    EDIT_USER: '/edit-user/'
 };
