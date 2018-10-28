@@ -2,7 +2,7 @@ const initialState = {
     user: {
         name: 'guest',
         id: 'guest',
-        isLogged: false
+        isLogged: true
     }
 }
 

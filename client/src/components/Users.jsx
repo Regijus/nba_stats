@@ -16,14 +16,14 @@ export default () => (
         <tr>
             <th scope="row">1</th>
             <td>Mark</td>
-            <td><Modal buttonLabel="Ban" btncolor="danger" title="Do you want to ban this user?" body="Mark" /></td>
+            <td><Modal buttonLabel="Ban" btncolor="primary" title="Do you want to ban this user?" body="Mark" /></td>
             <td>-</td>
             <td>
                 <NavLink to="/edit-user/">                           
                     <Button color="primary">Edit</Button>
                 </NavLink>
             </td>
-            <td><Modal buttonLabel="Add admin" btncolor="danger" title="Do you want to make this user admin?" body="Mark" /></td>
+            <td><Modal buttonLabel="Add admin" btncolor="primary" title="Do you want to make this user admin?" body="Mark" /></td>
         </tr>
         <tr>
             <th scope="row">2</th>
@@ -35,7 +35,7 @@ export default () => (
                     <Button color="primary">Edit</Button>
                 </NavLink>
             </td>
-            <td><Modal buttonLabel="Remove admin" btncolor="danger" title="Do you want to remove admin from this user?" body="Jacob" /></td>
+            <td><Modal buttonLabel="Remove admin" btncolor="secondary" title="Do you want to remove admin from this user?" body="Jacob" /></td>
         </tr>
         <tr>
             <th scope="row">3</th>
@@ -47,7 +47,7 @@ export default () => (
                     <Button color="primary">Edit</Button>
                 </NavLink>
             </td>
-            <td><Modal buttonLabel="Add admin" btncolor="danger" title="Do you want to make this user admin?" body="Larry" /></td>
+            <td><Modal buttonLabel="Add admin" btncolor="primary" title="Do you want to make this user admin?" body="Larry" /></td>
         </tr>
         </tbody>
     </Table>
