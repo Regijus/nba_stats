@@ -9,7 +9,7 @@ class Team extends Component {
         this.state = {
             team: null
         };
-        fetch('http://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2018-19&TeamID=' + this.props.match.params.teamId, { mode: "cors" })
+        fetch('https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2018-19&TeamID=' + this.props.match.params.teamId)
         .then(response => {
             return response.json();
         })
@@ -35,7 +35,6 @@ class Team extends Component {
         }
 
         let teamInfo = teams.filter(team => team.id === this.props.match.params.teamId);
-        console.log(teamInfo);
 
         return (
             <div className='mainTeam'>

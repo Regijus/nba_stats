@@ -21,7 +21,7 @@ class Teams extends Component {
                             }}
                         >
                             <div>
-                                <img src={team.logo} className="teamLogo" alt={team.name} />
+                                <img src={team.logo} className="logo" alt={team.name} />
                             </div>
                             <p>{team.name}</p>
                         </Paper>
