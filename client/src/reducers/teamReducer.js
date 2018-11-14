@@ -1,16 +1,34 @@
+import { GET_TEAMS, ADD_TEAM, DELETE_TEAM, TEAMS_LOADING } from '../actions/types';
+
 const initialState = {
-    teams: [
-        {
-            name: "Los Angeles Lakers",
-            id: '1610612747'
-        },
-        {
-            name: "Chicago Bulls",
-            id: '1610612741'
-        }
-    ]
+    teams: [],
+    loading: false
 };
 
-export default function(state = initialState) {
-    return state.teams;
+export default function(state = initialState, action) {
+    switch(action.type) {
+        case GET_TEAMS:
+            return {
+                ...state,
+                teams: action.payload,
+                loading: false
+            };
+        case DELETE_TEAM:
+            return {
+                ...state,
+                teams: state.teams.filter(team => team.apiID !== action.payload)
+            };
+        case ADD_TEAM:
+            return {
+                ...state,
+                teams: [action.payload, ...state.teams]
+            };
+        case TEAMS_LOADING:
+            return {
+                ...state,
+                loading: true
+            };
+        default:
+            return state;
+    }
 }

@@ -2,6 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoClient = require('mongodb').MongoClient;
 const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
+
+const players = require('./routes/api/players');
+const teams = require('./routes/api/teams');
 
 const app = express();
 
@@ -18,7 +22,7 @@ app.use((req, res, next) => {
 // DB Config
 const url = require('./config/keys').databaseURI;
 let db;
-
+/*
 mongoClient.connect(url, (err, database) => {
 	if (err) throw err;
 	db = database.db('nba-stats');
@@ -27,6 +31,14 @@ mongoClient.connect(url, (err, database) => {
 		console.log('Collection created!');
 	});
 });
+*/
+
+// Web DB Config
+const webDB = require('./config/keys').webDatabaseURI;
+mongoose
+    .connect(webDB, { useNewUrlParser: true })
+    .then(() => console.log('MongoDB Connected Successfully'))
+    .catch(err => console.log(err));
 
 // Use Routes
 app.post('/users', ({ body: { password, ...fields }}, res) => {
@@ -41,6 +53,9 @@ app.get('/users', (req, res) => {
 		console.log(results);
 	})
 });
+
+app.use('/api/players', players);
+app.use('/api/teams', teams);
 
 // Port Config
 const port = process.env.PORT || 5000;

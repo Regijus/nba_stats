@@ -1,10 +1,17 @@
-import React, { Component } from "react";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import teams from "../config/teams";
-import "../styles/teamsStyles.css";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import { getTeams } from '../actions/teamActions';
+import teams from '../config/teams';
+import '../styles/teamsStyles.css';
 
 class Teams extends Component {
+    constructor(props) {
+        super(props);
+        this.props.getTeams();
+    }
+
     render() {
         return (
         <div className="teamsMain">
@@ -35,4 +42,7 @@ class Teams extends Component {
     }
 }
 
-export default Teams;
+const mapStateToProps = state => ({});
+
+export default connect(mapStateToProps, { getTeams })(Teams);
+

@@ -1,18 +1,34 @@
+import { GET_PLAYERS, ADD_PLAYER, DELETE_PLAYER, PLAYERS_LOADING } from '../actions/types';
+
 const initialState = {
-    players: [
-        {
-            name: "LeBron James",
-            team: "Los Angeles Lakers",
-            id: '416483'
-        },
-        {
-            name: "Stephen Curry",
-            team: "Golden State Warriors",
-            id: '201939'
-        }
-    ]
+    players: [],
+    loading: false
 };
 
-export default function(state = initialState) {
-    return state.players;
+export default function(state = initialState, action) {
+    switch(action.type) {
+        case GET_PLAYERS:
+            return {
+                ...state,
+                players: action.payload,
+                loading: false
+            };
+        case DELETE_PLAYER:
+            return {
+                ...state,
+                players: state.players.filter(player => player.apiID !== action.payload)
+            };
+        case ADD_PLAYER:
+            return {
+                ...state,
+                players: [action.payload, ...state.players]
+            };
+        case PLAYERS_LOADING:
+            return {
+                ...state,
+                loading: true
+            };
+        default:
+            return state;
+    }
 }

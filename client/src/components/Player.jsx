@@ -1,14 +1,32 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Button } from 'reactstrap';
 import uuid from 'uuid';
 import { SeasonStatsTable } from '.';
+import { getPlayers, deletePlayer, addPlayer } from '../actions/playerActions';
 import '../styles/playerStyles.css';
 
 class Player extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            playerStats: null
-        };
+
+        this.props.getPlayers();
+        
+        let favorite = this.props.favoritePlayers.players;
+        favorite = favorite.find(player => player.apiID === props.match.params.playerId);
+        if (favorite !== undefined) {
+            this.state = {
+                playerStats: null,
+                isFavorite: true
+            };
+        }
+        else {
+            this.state = {
+                playerStats: null,
+                isFavorite: false
+            };
+        }
+        
         fetch('http://stats.nba.com/stats/playerprofilev2?LeagueID=00&PerMode=PerGame&PlayerID=' + this.props.match.params.playerId)
         .then(response => {
             return response.json();
@@ -24,6 +42,24 @@ class Player extends Component {
         localStorage.removeItem('playerName');
     }
 
+    onClick = team => {
+        let player = {
+            apiID: this.props.match.params.playerId,
+            User: this.props.user.user.id,
+            Team: team,
+            Name: localStorage.getItem('playerName')
+        };
+        if (!this.state.isFavorite) {
+            this.props.addPlayer(player);
+        }
+        else {
+            this.props.deletePlayer(player.apiID);
+        }
+        this.setState({
+            isFavorite: !this.state.isFavorite
+        });
+    }
+
     render() {
         let { playerStats } = this.state;
         
@@ -37,6 +73,13 @@ class Player extends Component {
         return (
             <div className="playerMain">
                 <h1>{localStorage.getItem('playerName')}</h1>
+                <Button 
+                    className={this.state.isFavorite ? "removeButton" : "addButton"}
+                    color={this.state.isFavorite ? "danger" : "success"}
+                    onClick={this.onClick.bind(this, playerStats.resultSets[14].rowSet[0][5] + " " + playerStats.resultSets[14].rowSet[0][6])}
+                >
+                    { this.state.isFavorite ? 'Remove Favorite' : 'Add Favorite' }
+                </Button>
                 <p>Next game: {playerStats.resultSets[14].rowSet[0][1]} {playerStats.resultSets[14].rowSet[0][2]} {playerStats.resultSets[14].rowSet[0][5]} {playerStats.resultSets[14].rowSet[0][6]} vs {playerStats.resultSets[14].rowSet[0][9]} {playerStats.resultSets[14].rowSet[0][10]}</p>
                 <div className="table">
                     <p>Regular Season</p>
@@ -59,4 +102,9 @@ class Player extends Component {
     }
 }
 
-export default Player;
+const mapStateToProps = state => ({
+    favoritePlayers: state.players,
+    user: state.user
+});
+
+export default connect(mapStateToProps, { getPlayers, addPlayer, deletePlayer })(Player);
