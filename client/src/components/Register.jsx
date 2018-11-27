@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addUser } from "../actions/userActions";
+import { addUser, resetMessages, setErrorMessage } from "../actions/userActions";
 import {
   Button,
   Form,
@@ -15,41 +15,29 @@ import {
 import '../styles/registerStyles.css';
 
 class Register extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       email: '',
       username: '',
       password: '',
-      repeatPassword: '',
-      errorMessage: '',
-      successMessage: ''
     };
+
+    props.onLoad();
   }
-
-  setSuccess = message => {
-    this.setState({
-      errorMessage: '',
-      successMessage: message
-    });
-  };
-
-  setError = message => {
-    this.setState({
-      errorMessage: message,
-      successMessage: ''
-    });
-  };
 
   validateForm = () => {
     const { email, username, password, repeatPassword } = this.state;
+    const { onError } = this.props;
 
     if(email.length === 0 || username.length === 0 || password.length === 0 || repeatPassword === 0) {
-      this.setError('Fields must not be empty');
+      onError('Fields must not be empty');
+
       return false;
     } else if(password !== repeatPassword) {
-      this.setError('Passwords must match');
+      onError('Passwords must match');
+      
       return false;
     } 
 
@@ -70,14 +58,14 @@ class Register extends Component {
 
   postData = () => {
     const { email, username, password } = this.state;
-    const { register } = this.props;
+    const { onRegister } = this.props;
 
-    register({ email, username, password });
+    onRegister({ email, username, password });
   };
   
 
   render() {
-    const { errorMessage, successMessage } = this.state;
+    const { errorMessage, successMessage } = this.props;
 
     return (
       <Card className="registerCard">
@@ -134,8 +122,15 @@ class Register extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  register: user => dispatch(addUser(user))
+const mapStateToProps = ({ auth: { successMessage, errorMessage } }) => ({
+  successMessage,
+  errorMessage
 });
 
-export default connect(null, mapDispatchToProps)(Register);
+const mapDispatchToProps = dispatch => ({
+  onRegister: user => dispatch(addUser(user)),
+  onError: message => dispatch(setErrorMessage(message)),
+  onLoad: () => dispatch(resetMessages())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
