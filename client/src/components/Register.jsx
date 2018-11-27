@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { addUser, resetMessages, setErrorMessage } from "../actions/userActions";
 import {
   Button,
   Form,
@@ -11,45 +13,31 @@ import {
   Alert
 } from "reactstrap";
 import '../styles/registerStyles.css';
-import { serverUrl } from '../config/server';
-import axios from 'axios';
 
 class Register extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       email: '',
       username: '',
       password: '',
-      repeatPassword: '',
-      errorMessage: '',
-      successMessage: ''
     };
+
+    props.onLoad();
   }
-
-  setSuccess = message => {
-    this.setState({
-      errorMessage: '',
-      successMessage: message
-    });
-  };
-
-  setError = message => {
-    this.setState({
-      errorMessage: message,
-      successMessage: ''
-    });
-  };
 
   validateForm = () => {
     const { email, username, password, repeatPassword } = this.state;
+    const { onError } = this.props;
 
     if(email.length === 0 || username.length === 0 || password.length === 0 || repeatPassword === 0) {
-      this.setError('Fields must not be empty');
+      onError('Fields must not be empty');
+
       return false;
     } else if(password !== repeatPassword) {
-      this.setError('Passwords must match');
+      onError('Passwords must match');
+      
       return false;
     } 
 
@@ -69,22 +57,15 @@ class Register extends Component {
   };
 
   postData = () => {
-    const { email, username, password, repeatPassword } = this.state;
+    const { email, username, password } = this.state;
+    const { onRegister } = this.props;
 
-    axios
-      .post(`${serverUrl}/users`, {
-        email,
-        username,
-        password
-      })
-      .then(({ status, data }) => {
-        status === 201 && this.setSuccess(data);
-      });
+    onRegister({ email, username, password });
   };
   
 
   render() {
-    const { errorMessage, successMessage } = this.state;
+    const { errorMessage, successMessage } = this.props;
 
     return (
       <Card className="registerCard">
@@ -141,4 +122,15 @@ class Register extends Component {
   }
 }
 
-export default Register;
+const mapStateToProps = ({ auth: { successMessage, errorMessage } }) => ({
+  successMessage,
+  errorMessage
+});
+
+const mapDispatchToProps = dispatch => ({
+  onRegister: user => dispatch(addUser(user)),
+  onError: message => dispatch(setErrorMessage(message)),
+  onLoad: () => dispatch(resetMessages())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
