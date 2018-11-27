@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { addUser } from "../actions/userActions";
 import {
   Button,
   Form,
@@ -11,8 +13,6 @@ import {
   Alert
 } from "reactstrap";
 import '../styles/registerStyles.css';
-import { serverUrl } from '../config/server';
-import axios from 'axios';
 
 class Register extends Component {
   constructor() {
@@ -69,17 +69,10 @@ class Register extends Component {
   };
 
   postData = () => {
-    const { email, username, password, repeatPassword } = this.state;
+    const { email, username, password } = this.state;
+    const { register } = this.props;
 
-    axios
-      .post(`${serverUrl}/users`, {
-        email,
-        username,
-        password
-      })
-      .then(({ status, data }) => {
-        status === 201 && this.setSuccess(data);
-      });
+    register({ email, username, password });
   };
   
 
@@ -141,4 +134,8 @@ class Register extends Component {
   }
 }
 
-export default Register;
+const mapDispatchToProps = dispatch => ({
+  register: user => dispatch(addUser(user))
+});
+
+export default connect(null, mapDispatchToProps)(Register);
