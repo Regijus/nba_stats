@@ -6,6 +6,7 @@ import { getTeams, deleteTeam, addTeam } from '../actions/teamActions';
 import { getPlayers } from '../actions/playerActions';
 import teams from '../config/teams';
 import '../styles/teamStyles.css';
+import jwt from 'jsonwebtoken';
 
 class Team extends Component {
     constructor(props) {
@@ -46,7 +47,7 @@ class Team extends Component {
     onClick = () => {
         let team = {
             apiID: this.props.match.params.teamId,
-            User: this.props.user.user.id,
+            User: this.props.user._id,
             Name: localStorage.getItem('teamName')
         };
         if (!this.state.isFavorite) {
@@ -97,7 +98,7 @@ class Team extends Component {
 
 const mapStateToProps = state => ({
     favoriteTeams: state.teams,
-    user: state.user
+    user: jwt.decode(state.auth.token)
 });
 
 export default connect(mapStateToProps, { getTeams, addTeam, deleteTeam, getPlayers })(Team);
