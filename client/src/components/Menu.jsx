@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import jwt from 'jsonwebtoken';
 import {
     Collapse,
     Navbar,
@@ -28,7 +29,7 @@ class Menu extends Component {
     }
 
     render() {
-        const { token, onLogout } = this.props;
+        const { user, onLogout } = this.props;
         return (
             <div>
                 <Navbar color="dark" dark expand="sm">
@@ -47,7 +48,7 @@ class Menu extends Component {
                                 </NavLink>
                             </NavItem>
                             {
-                                token ? (
+                                user && user.admin ? (
                                     <Fragment>
                                         <NavItem>
                                             <NavLink tag={Link} to="/favorites/">
@@ -70,6 +71,21 @@ class Menu extends Component {
                                             </NavLink>
                                         </NavItem>
                                     </Fragment>    
+                                ) 
+                                : user ?
+                                (
+                                    <Fragment>
+                                        <NavItem>
+                                            <NavLink tag={Link} to="/favorites/">
+                                                Favorites
+                                            </NavLink>
+                                        </NavItem> 
+                                        <NavItem>
+                                            <NavLink onClick={onLogout} tag={Link} to="/">
+                                                Logout
+                                            </NavLink>
+                                        </NavItem>
+                                    </Fragment>   
                                 )
                                 : (
                                     <Fragment>
@@ -95,7 +111,7 @@ class Menu extends Component {
 }
 
 const mapStateToProps = ({ auth: { token } }) => ({
-    token
+    user: jwt.decode(token)
 });
 
 const mapDispatchToProps = dispatch => ({

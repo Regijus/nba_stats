@@ -22,9 +22,11 @@ export const addUser = user => dispatch => {
     .catch(({ response: { data } }) => dispatch(setErrorMessage(data)));
 };
 
-export const editUser = user => dispatch => {
+export const editUser = user => (dispatch, getState) => {
   axios
-    .put(`${serverUrl}/api/users/${user.id}`, user)
+    .put(`${serverUrl}/api/users/${user.id}`, user, {
+      headers: { "Content-Type": "application/json; charset=utf-8", "Authorization": `Bearer ${getState().auth.token}` }
+    })
     .then(({ data }) => dispatch({ type: SET_SUCCESS_MESSAGE, payload: data }))
     .catch(({ response: { data } }) => dispatch(setErrorMessage(data)));
 };
@@ -50,32 +52,38 @@ export const getUser = id => dispatch => {
     .then(({ data })=> dispatch({ type: ADD_USERS, payload: data }));
 }
 
-export const activateUser = id => dispatch => {
+export const activateUser = id => (dispatch, getState) => {
   axios
-    .post(`${serverUrl}/api/users/activate`, id)
-    .then(()=> dispatch(addUsers()));
+    .post(`${serverUrl}/api/users/activate`, id, {
+      headers: { "Authorization": `Bearer ${getState().auth.token}` }
+    })
+    .then(() => dispatch(addUsers()));
 }
 
-export const banUser = id => dispatch => {
+export const banUser = id => (dispatch, getState) => {
   axios
-    .post(`${serverUrl}/api/users/ban`, id)
-    .then(()=> dispatch(addUsers()));
+    .post(`${serverUrl}/api/users/ban`, id, {
+      headers: { "Authorization": `Bearer ${getState().auth.token}` }
+    })
+    .then(() => dispatch(addUsers()));
 }
 
-export const unbanUser = id => dispatch => {
+export const unbanUser = id => (dispatch, getState) => {
   axios
-    .delete(`${serverUrl}/api/users/ban`, { data: { ...id } })
-    .then(()=> dispatch(addUsers()));
+    .delete(`${serverUrl}/api/users/ban`, { data: { ...id, headers: { "Authorization": `Bearer ${getState().auth.token}` } } })
+    .then(() => dispatch(addUsers()));
 }
 
-export const addAdmin = id => dispatch => {
+export const addAdmin = id => (dispatch, getState) => {
   axios
-    .post(`${serverUrl}/api/users/admin`, id)
-    .then(()=> dispatch(addUsers()));
+    .post(`${serverUrl}/api/users/admin`, id, {
+      headers: { "Authorization": `Bearer ${getState().auth.token}` }
+    })
+    .then(() => dispatch(addUsers()));
 }
 
-export const removeAdmin = id => dispatch => {
+export const removeAdmin = id => (dispatch, getState) => {
   axios
-    .delete(`${serverUrl}/api/users/admin`, { data: { ...id } })
-    .then(()=> dispatch(addUsers()));
+    .delete(`${serverUrl}/api/users/admin`, { data: { ...id, headers: { "Authorization": `Bearer ${getState().auth.token}` } } })
+    .then(() => dispatch(addUsers()));
 }
