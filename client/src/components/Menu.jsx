@@ -81,6 +81,11 @@ class Menu extends Component {
                                             </NavLink>
                                         </NavItem> 
                                         <NavItem>
+                                            <NavLink tag={Link} to={`/edit-user/${user._id}`}>
+                                                Edit profile
+                                            </NavLink>
+                                        </NavItem> 
+                                        <NavItem>
                                             <NavLink onClick={onLogout} tag={Link} to="/">
                                                 Logout
                                             </NavLink>

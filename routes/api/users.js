@@ -25,7 +25,7 @@ router.put('/:id', ({ body: { id, username, email }, headers: { authorization } 
     const token = getToken(authorization);
     if(token) {
       jwt.verify(token, 'key', (err, { admin, _id }) => {
-        if(admin === true || _id === user._id) {
+        if(admin === true || _id.toString() === user._id.toString()) {
           if(user.username === username) {
             User.updateOne({ _id: id }, { $set: { email }}, () => {
               res.status(200).send(`User id(${id}) was sucessfully updated`);
