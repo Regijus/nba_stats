@@ -7,6 +7,6 @@ import authReducer from './authReducer';
 export default combineReducers({
     players: playerReducer,
     teams: teamReducer,
-    user: userReducer,
+    users: userReducer,
     auth: authReducer
 });

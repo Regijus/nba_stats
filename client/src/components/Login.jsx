@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   Button,
   Form,
@@ -90,7 +91,7 @@ class Login extends Component {
             </FormGroup>
             <Button className="submitLoginButton" color="primary">Submit</Button>
           </Form>
-          <a href="/register">Don't have an account?</a>
+          <Link to="/register">Don't have an account?</Link>
         </CardBody>
       </Card>
     );
