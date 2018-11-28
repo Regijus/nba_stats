@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const players = require('./routes/api/players');
 const teams = require('./routes/api/teams');
@@ -9,6 +10,7 @@ const users = require('./routes/api/users');
 const app = express();
 
 // Bodyparser Middleware
+app.use(cors());
 app.use(bodyParser.json());
 app.use((req, res, next) => {
 	res.setHeader('Access-Control-Allow-Origin', '*');
@@ -23,7 +25,8 @@ const webDB = require('./config/keys').webDatabaseURI;
 mongoose
     .connect(webDB, { useNewUrlParser: true })
     .then(() => console.log('MongoDB Connected Successfully'))
-    .catch(err => console.log(err));
+		.catch(err => console.log(err));
+mongoose.set('useCreateIndex', true);
 
 // Use Routes
 app.use('/api/players', players);

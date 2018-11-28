@@ -10,5 +10,5 @@ export default {
     REGISTER: '/register',
     USERS: '/users',
     RECORDS: '/records',
-    EDIT_USER: '/edit-user/'
+    EDIT_USER: '/edit-user/:id'
 };

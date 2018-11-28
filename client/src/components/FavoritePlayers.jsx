@@ -4,6 +4,7 @@ import { Container, ListGroup, ListGroupItem } from 'reactstrap';
 import { getPlayers } from '../actions/playerActions';
 import { getTeams } from '../actions/teamActions';
 import '../styles/favoritesStyles.css';
+import jwt from 'jsonwebtoken';
 
 class FavoritePlayers extends Component {
     constructor(props) {
@@ -21,7 +22,7 @@ class FavoritePlayers extends Component {
                     {
                         this.props.players.players.length !== 0 ?
                         this.props.players.players.map(player => (
-                            player.User === this.props.user.user.id ?
+                            player.User === this.props.user._id ?
                             <ListGroupItem key={player.apiID} className="favoriteListItem"
                                 onClick={() => {
                                     this.props.history.push("/players/" + player.apiID);
@@ -30,9 +31,9 @@ class FavoritePlayers extends Component {
                             >
                                 {player.Name} ({player.Team})
                             </ListGroupItem> :
-                            <span></span>
+                            null
                         )) :
-                        <span></span>
+                        null
                     }
                 </ListGroup>
                 <h1 className="favoriteTeamsHeader">Favorite Teams</h1>
@@ -40,7 +41,7 @@ class FavoritePlayers extends Component {
                     {
                         this.props.teams.teams.length !== 0 ?
                         this.props.teams.teams.map(team => (
-                            team.User === this.props.user.user.id ?
+                            team.User === this.props.user._id ?
                             <ListGroupItem key={team.apiID} className="favoriteListItem"
                                 onClick={() => {
                                     this.props.history.push("/teams/" + team.apiID);
@@ -49,9 +50,9 @@ class FavoritePlayers extends Component {
                             >
                                 {team.Name}
                             </ListGroupItem> :
-                            <span></span>
+                            null
                         )) :
-                        <span></span>
+                        null
                     }
                 </ListGroup>
             </Container>
@@ -62,7 +63,7 @@ class FavoritePlayers extends Component {
 const mapStateToProps = state => ({
     players: state.players,
     teams: state.teams,
-    user: state.user
+    user: jwt.decode(state.auth.token)
 });
   
 export default connect(mapStateToProps, { getPlayers, getTeams })(FavoritePlayers);

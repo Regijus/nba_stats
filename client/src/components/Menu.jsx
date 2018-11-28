@@ -1,4 +1,7 @@
 import React, { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import jwt from 'jsonwebtoken';
 import {
     Collapse,
     Navbar,
@@ -8,69 +11,96 @@ import {
     NavItem,
     NavLink
 } from 'reactstrap';
+import { resetToken } from '../actions/userActions';
 
 class Menu extends Component {
     constructor(props) {
         super(props);
-        this.toggle = this.toggle.bind(this);
+
         this.state = {
           isOpen: false
         };
     }
 
-    toggle() {
+    toggle = () => {
         this.setState({
           isOpen: !this.state.isOpen
         });
     }
 
     render() {
+        const { user, onLogout } = this.props;
         return (
             <div>
                 <Navbar color="dark" dark expand="sm">
-                    <NavbarBrand href="/">NBA</NavbarBrand>
+                    <NavbarBrand tag={Link} to="/">NBA</NavbarBrand>
                     <NavbarToggler onClick={this.toggle}/>
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
                             <NavItem>
-                                <NavLink href="/schedule/">
+                                <NavLink tag={Link} to="/schedule/">
                                     Schedule
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="/teams/">
+                                <NavLink tag={Link} to="/teams/">
                                     Teams
                                 </NavLink>
                             </NavItem>
                             {
-                                this.props.user.isLogged ? (
+                                user && user.admin ? (
                                     <Fragment>
                                         <NavItem>
-                                            <NavLink href="/favorites/">
+                                            <NavLink tag={Link} to="/favorites/">
                                                 Favorites
                                             </NavLink>
                                         </NavItem> 
                                         <NavItem>
-                                            <NavLink href="/users/">
+                                            <NavLink tag={Link} to="/users/">
                                                 Users
                                             </NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink href="/records/">
+                                            <NavLink tag={Link} to="/records/">
                                                 Records
                                             </NavLink>
                                         </NavItem>
+                                        <NavItem>
+                                            <NavLink onClick={onLogout} tag={Link} to="/">
+                                                Logout
+                                            </NavLink>
+                                        </NavItem>
                                     </Fragment>    
+                                ) 
+                                : user ?
+                                (
+                                    <Fragment>
+                                        <NavItem>
+                                            <NavLink tag={Link} to="/favorites/">
+                                                Favorites
+                                            </NavLink>
+                                        </NavItem> 
+                                        <NavItem>
+                                            <NavLink tag={Link} to={`/edit-user/${user._id}`}>
+                                                Edit profile
+                                            </NavLink>
+                                        </NavItem> 
+                                        <NavItem>
+                                            <NavLink onClick={onLogout} tag={Link} to="/">
+                                                Logout
+                                            </NavLink>
+                                        </NavItem>
+                                    </Fragment>   
                                 )
                                 : (
                                     <Fragment>
                                         <NavItem>
-                                            <NavLink href="/login/">
+                                            <NavLink tag={Link} to="/login/">
                                                 Login
                                             </NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink href="/register/">
+                                            <NavLink tag={Link} to="/register/">
                                                 Register
                                             </NavLink>
                                         </NavItem>
@@ -85,4 +115,12 @@ class Menu extends Component {
     }
 }
 
-export default Menu;
+const mapStateToProps = ({ auth: { token } }) => ({
+    user: jwt.decode(token)
+});
+
+const mapDispatchToProps = dispatch => ({
+    onLogout: () => dispatch(resetToken())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);

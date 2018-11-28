@@ -26,7 +26,6 @@ export const addTeam = team => dispatch => {
 
 export const deleteTeam = id => dispatch => {
     dispatch(setTeamsLoading());
-    console.log(id);
     axios.get('/api/teams').then(res => {
         let idToDelete = res.data.filter(item => item.apiID === id);
         axios.delete('/api/teams/' + idToDelete[0]._id).then(res => dispatch({

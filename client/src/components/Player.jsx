@@ -5,6 +5,7 @@ import uuid from 'uuid';
 import { SeasonStatsTable } from '.';
 import { getPlayers, deletePlayer, addPlayer } from '../actions/playerActions';
 import '../styles/playerStyles.css';
+import jwt from 'jsonwebtoken';
 
 class Player extends Component {
     constructor(props) {
@@ -45,7 +46,7 @@ class Player extends Component {
     onClick = team => {
         let player = {
             apiID: this.props.match.params.playerId,
-            User: this.props.user.user.id,
+            User: this.props.user._id,
             Team: team,
             Name: localStorage.getItem('playerName')
         };
@@ -104,7 +105,7 @@ class Player extends Component {
 
 const mapStateToProps = state => ({
     favoritePlayers: state.players,
-    user: state.user
+    user: jwt.decode(state.auth.token)
 });
 
 export default connect(mapStateToProps, { getPlayers, addPlayer, deletePlayer })(Player);
