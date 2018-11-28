@@ -22,6 +22,13 @@ export const addUser = user => dispatch => {
     .catch(({ response: { data } }) => dispatch(setErrorMessage(data)));
 };
 
+export const editUser = user => dispatch => {
+  axios
+    .put(`${serverUrl}/api/users/${user.id}`, user)
+    .then(({ data }) => dispatch({ type: SET_SUCCESS_MESSAGE, payload: data }))
+    .catch(({ response: { data } }) => dispatch(setErrorMessage(data)));
+};
+
 export const login = data => dispatch => {
   axios
     .post(`${serverUrl}/api/users/login`, data)
