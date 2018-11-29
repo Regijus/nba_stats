@@ -26,6 +26,34 @@ const UserSchema = new Schema({
     admin: {
         type: Boolean,
         default: false
+    },
+    registrationDate: {
+        type: Date,
+        default: new Date()
+    },
+    name: {
+        type: String,
+        default: ''
+    },
+    surname: {
+        type: String,
+        default: ''
+    },
+    country: {
+        type: String,
+        default: ''
+    },
+    city: {
+        type: String,
+        default: ''
+    },
+    age: {
+        type: Number,
+        default: 0
+    },
+    gender: {
+        type: String,
+        default: 'Vyras'
     }
 });
 

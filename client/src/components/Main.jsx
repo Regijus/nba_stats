@@ -4,7 +4,6 @@ import { Route, withRouter, Redirect, Switch } from 'react-router-dom';
 import siteRoutes from '../config/siteRoutes';
 import jwt from 'jsonwebtoken';
 import {
-    Home,
     Teams,
     Team,
     Player,
@@ -27,10 +26,9 @@ class Main extends Component {
         if(user && user.admin) {
             routes = (
                 <Switch>
-                    <Route exact path={siteRoutes.HOME} component={Home}/>
+                    <Route exact path={siteRoutes.HOME} component={Teams}/>
                     <Route exact path={siteRoutes.PLAYER} component={Player}/>
                     <Route exact path={siteRoutes.TEAM} component={Team}/>
-                    <Route exact path={siteRoutes.TEAMS} component={Teams}/>
                     <Route exact path={siteRoutes.SCHEDULE} component={Schedule}/>
                     <Route exact path={siteRoutes.LOGIN} render={() => user ? <Redirect to="/"/> : <Login />}/>
                     <Route exact path={siteRoutes.GAME} component={Game}/>
@@ -43,10 +41,9 @@ class Main extends Component {
         } else if(user) {
             routes = (
                 <Switch>
-                    <Route exact path={siteRoutes.HOME} component={Home}/>
+                    <Route exact path={siteRoutes.HOME} component={Teams}/>
                     <Route exact path={siteRoutes.PLAYER} component={Player}/>
                     <Route exact path={siteRoutes.TEAM} component={Team}/>
-                    <Route exact path={siteRoutes.TEAMS} component={Teams}/>
                     <Route exact path={siteRoutes.SCHEDULE} component={Schedule}/>
                     <Route exact path={siteRoutes.LOGIN} render={() => user ? <Redirect to="/"/> : <Login />}/>
                     <Route exact path={siteRoutes.GAME} component={Game}/>
@@ -57,8 +54,11 @@ class Main extends Component {
         } else {
             routes = (
                 <Switch>
-                    <Route exact path={siteRoutes.TEAMS} component={Teams}/>
+                    <Route exact path={siteRoutes.HOME} component={Teams}/>
                     <Route exact path={siteRoutes.SCHEDULE} component={Schedule}/>
+                    <Route exact path={siteRoutes.TEAM} component={Team}/>
+                    <Route exact path={siteRoutes.PLAYER} component={Player}/>
+                    <Route exact path={siteRoutes.GAME} component={Game}/>
                     <Route exact path={siteRoutes.LOGIN} render={() => user ? <Redirect to="/"/> : <Login />}/>
                     <Route exact path={siteRoutes.REGISTER} component={Register}/>
                 </Switch>

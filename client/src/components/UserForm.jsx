@@ -1,8 +1,24 @@
 import React, { Component } from 'react';
-import { Form, FormGroup, Label, Input, Alert } from 'reactstrap';
+import { 
+  Form, 
+  FormGroup, 
+  Card,
+  CardBody
+} from 'reactstrap';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import { addUsers, resetMessages, setErrorMessage, editUser } from '../actions/userActions';
+import '../styles/formStyles.css';
+import TextField from '@material-ui/core/TextField';
+import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import { formStyles as styles } from '../styles/materialStyles';
 
 class UserForm extends Component {
   constructor(props) {
@@ -10,7 +26,13 @@ class UserForm extends Component {
 
     this.state = {
       email: '',
-      username: ''
+      username: '',
+      name: '',
+      surname: '',
+      country: '',
+      city: '',
+      age: 0,
+      gender: 'Vyras'
     }
 
     props.onLoad();
@@ -24,9 +46,9 @@ class UserForm extends Component {
   }
 
   setInitialValues = () => {
-    const { user: { username, email } } = this.props;
+    const { user: { username, email, name, surname, country, city, age, gender } } = this.props;
 
-    this.setState({ username, email });
+    this.setState({ username, email, name, surname, country, city, age, gender });
   }
 
   handleChange = ({ target: { name, value } }) => {
@@ -56,48 +78,132 @@ class UserForm extends Component {
 
   sendData = () => {
     const { id, onEdit } = this.props;
-    const { username, email } = this.state;
-
-    onEdit({ id, username, email });
+    const { username, email, name, surname, country, city, age, gender } = this.state;
+ 
+    onEdit({ id, username, email, name, surname, country, city, age, gender });
   }
 
   render() {
-    const { loading, errorMessage, successMessage } = this.props;
-    const { username, email } = this.state;
+    const { loading, errorMessage, successMessage, classes } = this.props;
+    const { username, email, name, surname, country, city, age, gender } = this.state;
     
     if(loading) {
       return <div>Loading...</div>
     } else {
       return (
-        <Form onSubmit={this.handleSubmit} className="userForm">
-          {errorMessage && <Alert color="danger">{errorMessage}</Alert>}
-          {successMessage && <Alert color="success">{successMessage}</Alert>}
-          <FormGroup>
-            <Label for="email">Email</Label>
-            <Input 
-              type="email" 
-              name="email" 
-              id="email"
-              placeholder="email@email.com"
-              value={email}
-              onChange={this.handleChange}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="username">Username</Label>
-            <Input 
-              type="username" 
-              name="username" 
-              id="username" 
-              placeholder="username" 
-              value={username}
-              onChange={this.handleChange}
-            />
-          </FormGroup>
-          <Button type="submit" variant="contained" color="primary">
-            Submit
-          </Button>
-        </Form>
+        <Card className="formCard">
+        <CardBody>
+            <Typography 
+              variant="h5" 
+              component="h3" 
+              className={classNames(classes.title)}
+            >
+              Edit form
+            </Typography>
+            <Form onSubmit={this.handleSubmit} className="userForm">
+              {errorMessage && 
+                <Paper className={classNames(classes.alert)}>
+                  <Typography className={classNames(classes.text)} component="p">
+                    {errorMessage}
+                  </Typography>
+                </Paper>
+              }
+              {successMessage && 
+                <Paper className={classNames(classes.alert)}>
+                  <Typography className={classNames(classes.text)} component="p">
+                    {successMessage}
+                  </Typography>
+                </Paper>
+              }
+              <FormGroup>
+                <TextField 
+                  name="email" 
+                  label="Email"
+                  value={email}
+                  onChange={this.handleChange}
+                  fullWidth
+                />
+              </FormGroup>
+              <FormGroup>
+                <TextField 
+                  name="username" 
+                  label="Username" 
+                  value={username}
+                  onChange={this.handleChange}
+                  fullWidth
+                />
+              </FormGroup>
+              <FormGroup>
+                <TextField 
+                  name="name" 
+                  label="Name"
+                  value={name}
+                  onChange={this.handleChange}
+                  fullWidth
+                />
+              </FormGroup>
+              <FormGroup>
+                <TextField 
+                  name="surname" 
+                  label="Surname"
+                  value={surname}
+                  onChange={this.handleChange}
+                  fullWidth
+                />
+              </FormGroup>
+              <FormGroup>
+                <TextField 
+                  name="country" 
+                  label="Country"
+                  value={country}
+                  onChange={this.handleChange}
+                  fullWidth
+                />
+              </FormGroup>
+              <FormGroup>
+                <TextField 
+                  name="city" 
+                  label="City"
+                  value={city}
+                  onChange={this.handleChange}
+                  fullWidth
+                />
+              </FormGroup>
+              <FormGroup>
+                <TextField 
+                  name="age" 
+                  label="Age"
+                  value={age}
+                  onChange={this.handleChange}
+                  fullWidth
+                />
+              </FormGroup>
+              <FormControl className={classNames(classes.select)}>
+                <InputLabel htmlFor="gender">Gender</InputLabel>
+                <Select
+                  value={gender}
+                  onChange={this.handleChange}
+                  inputProps={{
+                    name: 'gender',
+                    id: 'gender'
+                  }}         
+                  fullWidth       
+                >
+                  <MenuItem value={'Vyras'}>Vyras</MenuItem>
+                  <MenuItem value={'Moters'}>Moteris</MenuItem>
+                </Select>
+              </FormControl>
+              <Button 
+                variant="contained" 
+                type="submit" 
+                color="primary"
+                className={classNames(classes.button)} 
+              >
+                Submit
+              </Button>
+            </Form>
+          </CardBody>
+        </Card>
       );
     }
   }
@@ -121,4 +227,4 @@ const mapDispatchToProps = dispatch => ({
   onEdit: user => dispatch(editUser(user))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserForm);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(UserForm));

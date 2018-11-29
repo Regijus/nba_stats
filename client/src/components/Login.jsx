@@ -2,18 +2,20 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
-  Button,
   Form,
   FormGroup,
-  Label,
-  Input,
   Card,
-  CardTitle,
-  CardBody,
-  Alert
+  CardBody
 } from 'reactstrap';
-import '../styles/loginStyles.css';
 import { resetMessages, setErrorMessage, login } from '../actions/userActions';
+import '../styles/formStyles.css';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import { formStyles as styles } from '../styles/materialStyles';
 
 class Login extends Component {
   constructor(props) {
@@ -60,46 +62,60 @@ class Login extends Component {
   };
 
   render() {
-    const { errorMessage, successMessage } = this.props;
+    const { errorMessage, classes } = this.props;
 
     return (
-      <Card className="loginCard">
+      <Card className="formCard">
         <CardBody>
-          <CardTitle className="loginHeader">Login</CardTitle>
+          <Typography 
+            variant="h5" 
+            component="h3" 
+            className={classNames(classes.title)}
+          >
+            Login
+          </Typography>
           <Form onSubmit={this.handleSubmit}>
-            {errorMessage && <Alert color="danger">{errorMessage}</Alert>}
-            {successMessage && <Alert color="success">{successMessage}</Alert>}
+            {errorMessage && 
+              <Paper className={classNames(classes.alert)}>
+                <Typography className={classNames(classes.text)} component="p">
+                  {errorMessage}
+                </Typography>
+              </Paper>
+            }
             <FormGroup>
-              <Label for="username">Username</Label>
-              <Input
-                type="username"
+              <TextField
                 name="username"
-                id="username"
-                placeholder="Username"
+                label="Username"
                 onChange={this.handleChange}
+                fullWidth
               />
             </FormGroup>
             <FormGroup>
-              <Label for="password">Password</Label>
-              <Input
-                type="password"
+              <TextField
                 name="password"
-                id="password"
-                placeholder="Password"
+                label="Password"
+                type="password"
                 onChange={this.handleChange}
+                fullWidth
               />
             </FormGroup>
-            <Button className="submitLoginButton" color="primary">Submit</Button>
+            <Button 
+              variant="contained" 
+              type="submit" 
+              color="primary"
+              className={classNames(classes.button)} 
+            >
+              Submit
+            </Button>
           </Form>
-          <Link to="/register">Don't have an account?</Link>
+          <Link className="formRedirect" to="/register">Don't have an account?</Link>
         </CardBody>
       </Card>
     );
   }
 }
 
-const mapStateToProps = ({ auth: { successMessage, errorMessage } }) => ({
-  successMessage,
+const mapStateToProps = ({ auth: { errorMessage } }) => ({
   errorMessage
 });
 
@@ -109,4 +125,4 @@ const mapDispatchToProps = dispatch => ({
   onLogin: data => dispatch(login(data))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login));
