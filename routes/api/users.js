@@ -20,20 +20,20 @@ router.get('/', (req, res) => {
 // @route PUT api/users
 // @desc Update user
 // @access Private
-router.put('/:id', ({ body: { id, username, email }, headers: { authorization } }, res) => {
+router.put('/:id', ({ body: { id, username, ...fields }, headers: { authorization } }, res) => {
   User.findById(id, (err, user) => {
     const token = getToken(authorization);
     if(token) {
       jwt.verify(token, 'key', (err, { admin, _id }) => {
         if(admin === true || _id.toString() === user._id.toString()) {
           if(user.username === username) {
-            User.updateOne({ _id: id }, { $set: { email }}, () => {
+            User.updateOne({ _id: id }, { $set: { ...fields }}, () => {
               res.status(200).send(`User id(${id}) was sucessfully updated`);
             });
           } else {
             User.findOne({ username: username }, (err, user) => {
               if(user === null) {
-                User.updateOne({ _id: id }, { $set: { email, username }}, () => {
+                User.updateOne({ _id: id }, { $set: { ...fields, username }}, () => {
                   res.status(200).send(`User id(${id}) was sucessfully updated`);
                 });
               } else {

@@ -19,5 +19,9 @@ export const formStyles = {
   },
   text: {
     color: '#FFF'
+  },
+  select: {
+    display: 'block',
+    width: '100%'
   }
 };

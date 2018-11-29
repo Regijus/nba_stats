@@ -3,10 +3,6 @@
   margin-top: 2rem;
   margin-bottom: 1rem;
   float: none;
-  position: absolute !important;
-  top: 35%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
   width: 25%;
   border: 1px #3f51b5 solid !important;
   padding: 30px 20px 50px 20px;
