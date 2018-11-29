@@ -63,6 +63,7 @@ class Team extends Component {
 
     render() {
         let { team } = this.state;
+        const { user } = this.props;
 
         if (team === null) {
             return (
@@ -77,13 +78,15 @@ class Team extends Component {
                 <div className="centered">
                     <img src={teamInfo[0].logo} alt={localStorage.getItem('teamName')} className="teamLogo"/>
                     <h2 className="teamNameHeader">{localStorage.getItem('teamName')}</h2>
-                    <Button 
+                    { user && (
+                        <Button 
                         className={this.state.isFavorite ? "removeButton" : "addButton"}
                         color={this.state.isFavorite ? "danger" : "success"}
                         onClick={this.onClick.bind(this)}
-                    >
-                        { this.state.isFavorite ? 'Remove Favorite' : 'Add Favorite' }
-                    </Button>
+                        >
+                            { this.state.isFavorite ? 'Remove Favorite' : 'Add Favorite' }
+                        </Button>
+                    )}
                 </div>
                 <h1>Players</h1>
                 <PlayerTable data={team.resultSets[0].rowSet} history={this.props.history}/>

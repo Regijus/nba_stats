@@ -26,6 +26,10 @@ const UserSchema = new Schema({
     admin: {
         type: Boolean,
         default: false
+    },
+    registrationDate: {
+        type: Date,
+        default: new Date()
     }
 });
 

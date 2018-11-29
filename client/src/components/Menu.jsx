@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import jwt from 'jsonwebtoken';
 import {
     Collapse,
     Navbar,
@@ -12,6 +11,7 @@ import {
     NavLink
 } from 'reactstrap';
 import { resetToken } from '../actions/userActions';
+import '../styles/menuStyles.css';
 
 class Menu extends Component {
     constructor(props) {
@@ -29,10 +29,10 @@ class Menu extends Component {
     }
 
     render() {
-        const { user, onLogout } = this.props;
+        const { token, onLogout } = this.props;
         return (
             <div>
-                <Navbar color="dark" dark expand="sm">
+                <Navbar dark expand="sm">
                     <NavbarBrand tag={Link} to="/">NBA</NavbarBrand>
                     <NavbarToggler onClick={this.toggle}/>
                     <Collapse isOpen={this.state.isOpen} navbar>
@@ -43,12 +43,12 @@ class Menu extends Component {
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink tag={Link} to="/teams/">
+                                <NavLink tag={Link} to="/">
                                     Teams
                                 </NavLink>
                             </NavItem>
                             {
-                                user && user.admin ? (
+                                token ? (
                                     <Fragment>
                                         <NavItem>
                                             <NavLink tag={Link} to="/favorites/">
@@ -71,26 +71,6 @@ class Menu extends Component {
                                             </NavLink>
                                         </NavItem>
                                     </Fragment>    
-                                ) 
-                                : user ?
-                                (
-                                    <Fragment>
-                                        <NavItem>
-                                            <NavLink tag={Link} to="/favorites/">
-                                                Favorites
-                                            </NavLink>
-                                        </NavItem> 
-                                        <NavItem>
-                                            <NavLink tag={Link} to={`/edit-user/${user._id}`}>
-                                                Edit profile
-                                            </NavLink>
-                                        </NavItem> 
-                                        <NavItem>
-                                            <NavLink onClick={onLogout} tag={Link} to="/">
-                                                Logout
-                                            </NavLink>
-                                        </NavItem>
-                                    </Fragment>   
                                 )
                                 : (
                                     <Fragment>
@@ -116,7 +96,7 @@ class Menu extends Component {
 }
 
 const mapStateToProps = ({ auth: { token } }) => ({
-    user: jwt.decode(token)
+    token
 });
 
 const mapDispatchToProps = dispatch => ({

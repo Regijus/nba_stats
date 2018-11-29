@@ -2,17 +2,19 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { addUser, resetMessages, setErrorMessage } from "../actions/userActions";
 import {
-  Button,
   Form,
   FormGroup,
-  Label,
-  Input,
   Card,
-  CardTitle,
-  CardBody,
-  Alert
+  CardBody
 } from "reactstrap";
-import '../styles/registerStyles.css';
+import '../styles/formStyles.css';
+import { formStyles as styles } from '../styles/materialStyles';
+import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 class Register extends Component {
   constructor(props) {
@@ -65,56 +67,76 @@ class Register extends Component {
   
 
   render() {
-    const { errorMessage, successMessage } = this.props;
+    const { errorMessage, successMessage, classes } = this.props;
 
     return (
-      <Card className="registerCard">
+      <Card className="formCard">
         <CardBody>
-          <CardTitle className="registerHeader">Register</CardTitle>
+          <Typography 
+              variant="h5" 
+              component="h3" 
+              className={classNames(classes.title)}
+            >
+              Register
+            </Typography>
           <Form onSubmit={this.handleSubmit}>
-            {errorMessage && <Alert color="danger">{errorMessage}</Alert>}
-            {successMessage && <Alert color="success">{successMessage}</Alert>}
+            {errorMessage && 
+              <Paper className={classNames(classes.alert)}>
+                <Typography className={classNames(classes.text)} component="p">
+                  {errorMessage}
+                </Typography>
+              </Paper>
+            }
+            {successMessage && 
+              <Paper className={classNames(classes.alert)}>
+                <Typography className={classNames(classes.text)} component="p">
+                  {successMessage}
+                </Typography>
+              </Paper>
+            }
             <FormGroup>
-              <Label for="email">Email</Label>
-              <Input
+              <TextField
                 type="email"
                 name="email"
-                id="email"
-                placeholder="email"
+                label="Email"
                 onChange={this.handleChange}
+                fullWidth
               />
             </FormGroup>
             <FormGroup>
-              <Label for="username">Username</Label>
-              <Input
-                type="username"
+              <TextField
+                label="Username"
                 name="username"
-                id="username"
-                placeholder="Username"
                 onChange={this.handleChange}
+                fullWidth
               />
             </FormGroup>
             <FormGroup>
-              <Label for="password">Password</Label>
-              <Input
+              <TextField
                 type="password"
+                label="Password"
                 name="password"
-                id="password"
-                placeholder="Password"
                 onChange={this.handleChange}
+                fullWidth
               />
             </FormGroup>
             <FormGroup>
-              <Label for="password">Repeat Password</Label>
-              <Input
+              <TextField
                 type="password"
+                label="Repeat Password"
                 name="repeatPassword"
-                id="repeatPassword"
-                placeholder="Repeat Password"
                 onChange={this.handleChange}
+                fullWidth
               />
             </FormGroup>
-            <Button color="primary">Submit</Button>
+            <Button 
+              variant="contained" 
+              type="submit" 
+              color="primary"
+              className={classNames(classes.button)} 
+            >
+              Submit
+            </Button>
           </Form>
         </CardBody>
       </Card>
@@ -133,4 +155,4 @@ const mapDispatchToProps = dispatch => ({
   onLoad: () => dispatch(resetMessages())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Register));

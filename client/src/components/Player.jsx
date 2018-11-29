@@ -63,6 +63,7 @@ class Player extends Component {
 
     render() {
         let { playerStats } = this.state;
+        const { user } = this.props;
         
         if (playerStats === null) {
             return (
@@ -74,13 +75,15 @@ class Player extends Component {
         return (
             <div className="playerMain">
                 <h1>{localStorage.getItem('playerName')}</h1>
-                <Button 
+                {user && (
+                    <Button 
                     className={this.state.isFavorite ? "removeButton" : "addButton"}
                     color={this.state.isFavorite ? "danger" : "success"}
                     onClick={this.onClick.bind(this, playerStats.resultSets[14].rowSet[0][5] + " " + playerStats.resultSets[14].rowSet[0][6])}
-                >
-                    { this.state.isFavorite ? 'Remove Favorite' : 'Add Favorite' }
-                </Button>
+                    >
+                        { this.state.isFavorite ? 'Remove Favorite' : 'Add Favorite' }
+                    </Button>
+                )}
                 <p>Next game: {playerStats.resultSets[14].rowSet[0][1]} {playerStats.resultSets[14].rowSet[0][2]} {playerStats.resultSets[14].rowSet[0][5]} {playerStats.resultSets[14].rowSet[0][6]} vs {playerStats.resultSets[14].rowSet[0][9]} {playerStats.resultSets[14].rowSet[0][10]}</p>
                 <div className="table">
                     <p>Regular Season</p>
